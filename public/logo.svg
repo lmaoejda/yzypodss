@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="c"><circle cx="256" cy="256" r="250"/></clipPath>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfc6b3"/>
+      <stop offset=".55" stop-color="#e6dfcf"/>
+      <stop offset="1" stop-color="#bdb59f"/>
+    </linearGradient>
+    <filter id="b"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <g clip-path="url(#c)">
+    <rect width="512" height="512" fill="url(#bg)"/>
+    <g filter="url(#b)" opacity=".75">
+      <ellipse cx="130" cy="150" rx="90" ry="40" fill="#8f8a85"/>
+      <ellipse cx="400" cy="110" rx="80" ry="36" fill="#9b968f"/>
+      <ellipse cx="90" cy="300" rx="70" ry="30" fill="#f6f2ea"/>
+      <ellipse cx="420" cy="290" rx="70" ry="30" fill="#f3efe6"/>
+      <ellipse cx="256" cy="470" rx="150" ry="30" fill="#7c8a8c"/>
+    </g>
+    <path d="M205 205 Q256 160 310 200 L330 215 Q300 245 256 235 Q222 232 205 205Z" fill="#fff" opacity=".55"/>
+    <g font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="31" fill="#857b7e" opacity=".9" letter-spacing="-1">
+      <text x="14" y="258">YEEZUS</text><text x="14" y="283">YEEZUS</text><text x="14" y="308">YEEZUS</text>
+      <text x="14" y="333">YEEZUS</text><text x="22" y="358">YEEZUS</text><text x="14" y="383">YEEZUS</text>
+      <text x="318" y="258">YEEZUS</text><text x="318" y="283">YEEZUS</text><text x="318" y="308">YEEZUS</text>
+      <text x="318" y="333">YEEZUS</text><text x="326" y="358">YEEZUS</text><text x="318" y="383">YEEZUS</text>
+    </g>
+    <rect x="392" y="345" width="130" height="62" fill="#e23b4e" opacity=".6"/>
+
+    <!-- YEEZY -->
+    <g fill="none" stroke="#000" stroke-width="24" stroke-linejoin="miter" stroke-miterlimit="10">
+      <path d="M92 108 L111 142 L130 108 M111 142 L111 176"/>
+      <path d="M206 108 L168 108 L168 176 L206 176 M168 142 L198 142"/>
+      <path d="M282 108 L244 108 L244 176 L282 176 M244 142 L274 142"/>
+      <path d="M320 108 L358 108 L320 176 L358 176"/>
+      <path d="M396 108 L415 142 L434 108 M415 142 L415 176"/>
+      <!-- PODS -->
+      <path d="M124 428 L124 352 L162 352 L162 392 L124 392"/>
+      <path d="M202 352 L240 352 L240 428 L202 428 Z"/>
+      <path d="M280 352 L304 352 L318 366 L318 414 L304 428 L280 428 Z"/>
+      <path d="M396 352 L358 352 L358 390 L396 390 L396 428 L358 428"/>
+    </g>
+    <!-- slash spikes -->
+    <polygon points="82,150 106,150 94,335" fill="#000"/>
+    <polygon points="408,150 436,150 426,335" fill="#000"/>
+
+    <!-- silhouette -->
+    <g fill="#000" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
+      <polygon stroke="none" points="222,208 212,172 230,186 230,148 246,178 256,134 268,176 284,146 284,186 300,166 292,208"/>
+      <circle cx="256" cy="238" r="38" stroke="none"/>
+      <rect x="220" y="272" width="72" height="72" rx="16" stroke="none"/>
+      <path d="M212 284 L212 345" stroke-width="22" fill="none"/>
+      <path d="M300 284 L300 345" stroke-width="22" fill="none"/>
+      <path d="M240 340 L240 470" stroke-width="26" fill="none"/>
+      <path d="M272 340 L272 470" stroke-width="26" fill="none"/>
+    </g>
+    <!-- red pod -->
+    <g transform="translate(322 338) rotate(14)">
+      <rect x="-10" y="-62" width="20" height="74" rx="5" fill="#c4161c"/>
+      <rect x="-6" y="-74" width="12" height="14" rx="3" fill="#7d0b10"/>
+      <rect x="-6" y="-56" width="4" height="60" rx="2" fill="#ff6a6f" opacity=".7"/>
+    </g>
+  </g>
+  <circle cx="256" cy="256" r="250" fill="none" stroke="#000" stroke-width="6"/>
+</svg>

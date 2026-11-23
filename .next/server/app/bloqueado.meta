@@ -1,0 +1,34 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/bloqueado/layout,_N_T_/bloqueado/page,_N_T_/bloqueado"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/bloqueado/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 96,
+        "slots": {
+          "children": {
+            "hints": 160,
+            "slots": null
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/626f17fec10acb03f6115573ff0b6f1145e8ea79ef32ea5a094b93548dc4fb90/$/bloqueado",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/bloqueado/page"
+    },
+    "isFallback": false
+  }
+}

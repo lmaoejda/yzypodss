@@ -1,0 +1,5 @@
+(globalThis["TURBOPACK_CHUNK_LISTS"] || (globalThis["TURBOPACK_CHUNK_LISTS"] = [])).push({
+    script: typeof document === "object" ? document.currentScript : undefined,
+    chunks: ["static/chunks/node_modules_next_dist_0ktnoqb6l33fj._.js","static/chunks/[root-of-the-server]__0138t92_khmjx._.css","static/chunks/src_1xi2a3dvd31hy._.js","static/chunks/node_modules_next_1284oxkq_s3ut._.js","static/chunks/node_modules_framer-motion_dist_es_05i-zohskacvc._.js","static/chunks/node_modules_motion-dom_dist_es_1hiwyhmsdrylc._.js","static/chunks/node_modules_0750a4u1ysgtc._.js","static/chunks/src_components_pod_PodScene_tsx_0f4-yphmv5ptc._.js","static/chunks/_0rr-8_jmccvfe._.js","static/chunks/node_modules_three_build_three_core_18d0oq6so9l-t.js","static/chunks/node_modules_three_build_three_module_03rsyo66totzs.js","static/chunks/node_modules_three_build_three_module_1_wgwg8fdd16a.js","static/chunks/node_modules_@react-three_fiber_dist_0-shm7y3fbonm._.js","static/chunks/node_modules_146dspyu0_rip._.js","static/chunks/src_components_pod_PodScene_tsx_1srhxrweri4-i._.js"],
+    source: "entry"
+});
