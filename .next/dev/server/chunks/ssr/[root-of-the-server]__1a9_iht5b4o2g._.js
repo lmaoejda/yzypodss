@@ -16,6 +16,8 @@ __turbopack_context__.s([
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["deleteProductAction"],
     "40692563a8dc331f44013d53e6c439ccf3efb5f483",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createProductAction"],
+    "40777bc69ce3c2a0a1cfd8caa6eeb255c48ef31bd9",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["importProductsAction"],
     "4078a95100f9f021914f96340aa891c03e863756e3",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["retryImageAction"],
     "600a1af5c8a11ff736ebb9a425f7da74c59201cd7e",
@@ -56,17 +58,21 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 ;
+;
+;
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
 "[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
-/* __next_internal_action_entry_do_not_use__ [{"009f44fc71f939d5b067a74bb74bd5adb4b8d60c5a":{"name":"logoutAction"},"4064dd1abbb238a42185890e4d368c2730da238055":{"name":"deleteProductAction"},"40692563a8dc331f44013d53e6c439ccf3efb5f483":{"name":"createProductAction"},"4078a95100f9f021914f96340aa891c03e863756e3":{"name":"retryImageAction"},"600a1af5c8a11ff736ebb9a425f7da74c59201cd7e":{"name":"toggleActiveAction"},"607b1e6d6c587e997c95a599d3325f8885a66fe4c5":{"name":"updatePriceAction"},"60b710bcae6bcb17ad9c2b62bd838f1d09ef6b4bc5":{"name":"loginAction"}},"src/app/admin/actions.ts",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"009f44fc71f939d5b067a74bb74bd5adb4b8d60c5a":{"name":"logoutAction"},"4064dd1abbb238a42185890e4d368c2730da238055":{"name":"deleteProductAction"},"40692563a8dc331f44013d53e6c439ccf3efb5f483":{"name":"createProductAction"},"40777bc69ce3c2a0a1cfd8caa6eeb255c48ef31bd9":{"name":"importProductsAction"},"4078a95100f9f021914f96340aa891c03e863756e3":{"name":"retryImageAction"},"600a1af5c8a11ff736ebb9a425f7da74c59201cd7e":{"name":"toggleActiveAction"},"607b1e6d6c587e997c95a599d3325f8885a66fe4c5":{"name":"updatePriceAction"},"60b710bcae6bcb17ad9c2b62bd838f1d09ef6b4bc5":{"name":"loginAction"}},"src/app/admin/actions.ts",""] */ __turbopack_context__.s([
     "createProductAction",
     ()=>createProductAction,
     "deleteProductAction",
     ()=>deleteProductAction,
+    "importProductsAction",
+    ()=>importProductsAction,
     "loginAction",
     ()=>loginAction,
     "logoutAction",
@@ -104,6 +110,80 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 ;
+function parseProductImport(text) {
+    if (text.length > 100_000) {
+        return {
+            products: null,
+            error: "El archivo supera el límite de 100 KB."
+        };
+    }
+    const rows = text.split(/\r?\n/).map((raw, index)=>({
+            raw: raw.trim(),
+            line: index + 1
+        })).filter(({ raw })=>raw && !raw.startsWith("#"));
+    if (rows.length === 0) {
+        return {
+            products: null,
+            error: "El archivo no contiene productos."
+        };
+    }
+    if (rows.length > 50) {
+        return {
+            products: null,
+            error: "Podés importar hasta 50 productos por archivo."
+        };
+    }
+    const imported = [];
+    const seen = new Set();
+    const errors = [];
+    for (const { raw, line } of rows){
+        const fields = raw.split("|").map((field)=>field.trim());
+        if (fields.length !== 5) {
+            errors.push(`Línea ${line}: deben ser 5 campos separados por |.`);
+            continue;
+        }
+        const [rawBrand, rawModel, rawPuffs, rawPrice, rawFlavors] = fields;
+        const brand = rawBrand.toUpperCase();
+        const model = rawModel.toUpperCase();
+        const puffs = Number(rawPuffs.replace(/\D/g, ""));
+        const priceArs = Number(rawPrice.replace(/\D/g, ""));
+        const flavors = Array.from(new Set(rawFlavors.split(",").map((flavor)=>flavor.trim()).filter(Boolean)));
+        if (!brand || brand.length > 40) errors.push(`Línea ${line}: marca obligatoria (máximo 40 caracteres).`);
+        if (!model || model.length > 40) errors.push(`Línea ${line}: modelo obligatorio (máximo 40 caracteres).`);
+        if (!Number.isSafeInteger(puffs) || puffs < 1 || puffs > 2_147_483_647) {
+            errors.push(`Línea ${line}: puffs debe ser un entero mayor a 0.`);
+        }
+        if (!Number.isSafeInteger(priceArs) || priceArs < 1 || priceArs > 100_000_000) {
+            errors.push(`Línea ${line}: precio debe ser un entero entre 1 y 100.000.000.`);
+        }
+        if (flavors.length === 0 || flavors.length > 20 || flavors.some((flavor)=>flavor.length > 80)) {
+            errors.push(`Línea ${line}: indicá entre 1 y 20 sabores (máximo 80 caracteres cada uno).`);
+        }
+        const key = `${brand.toLocaleLowerCase("es-AR")}|${model.toLocaleLowerCase("es-AR")}`;
+        if (seen.has(key)) errors.push(`Línea ${line}: marca y modelo repetidos en el archivo.`);
+        seen.add(key);
+        imported.push({
+            brand,
+            model,
+            puffs,
+            priceArs,
+            flavors,
+            line
+        });
+    }
+    if (errors.length > 0) {
+        const displayedErrors = errors.slice(0, 8).join(" ");
+        const remaining = errors.length - 8;
+        return {
+            products: null,
+            error: `${displayedErrors}${remaining > 0 ? ` Y ${remaining} error(es) más.` : ""}`
+        };
+    }
+    return {
+        products: imported,
+        error: null
+    };
+}
 function refresh() {
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/admin");
@@ -187,6 +267,43 @@ async function createProductAction(formData) {
         message: `✅ ${brand} ${model} publicado con modelo 3D del color del sabor. (${result.detail})`
     };
 }
+async function importProductsAction(text) {
+    await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["requireAdmin"])();
+    await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$db$2f$bootstrap$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureDb"])();
+    const parsed = parseProductImport(text);
+    if (!parsed.products) return {
+        ok: false,
+        message: parsed.error
+    };
+    const existingRows = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$db$2f$index$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].select({
+        brand: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$db$2f$schema$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["products"].brand,
+        model: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$db$2f$schema$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["products"].model
+    }).from(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$db$2f$schema$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["products"]);
+    const existing = new Set(existingRows.map(({ brand, model })=>`${brand.toLocaleLowerCase("es-AR")}|${model.toLocaleLowerCase("es-AR")}`));
+    const duplicates = parsed.products.filter((item)=>existing.has(`${item.brand.toLocaleLowerCase("es-AR")}|${item.model.toLocaleLowerCase("es-AR")}`));
+    if (duplicates.length > 0) {
+        const names = duplicates.slice(0, 5).map((item)=>`${item.brand} ${item.model} (línea ${item.line})`).join(", ");
+        const remaining = duplicates.length - 5;
+        return {
+            ok: false,
+            message: `Ya existen: ${names}${remaining > 0 ? ` y ${remaining} más` : ""}. No se importó ningún producto.`
+        };
+    }
+    await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$db$2f$index$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].insert(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$db$2f$schema$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["products"]).values(parsed.products.map(({ brand, model, puffs, priceArs, flavors })=>({
+            brand,
+            model,
+            puffs,
+            priceArs,
+            flavors,
+            renderMode: "color",
+            active: true
+        })));
+    refresh();
+    return {
+        ok: true,
+        message: `${parsed.products.length} producto(s) agregados y publicados. El modelo 3D de color se genera automáticamente; podés buscar una imagen desde la tabla de productos.`
+    };
+}
 async function updatePriceAction(id, price) {
     await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["requireAdmin"])();
     if (!Number.isInteger(price) || price < 1 || price > 100_000_000) {
@@ -251,6 +368,7 @@ async function retryImageAction(id) {
     loginAction,
     logoutAction,
     createProductAction,
+    importProductsAction,
     updatePriceAction,
     toggleActiveAction,
     deleteProductAction,
@@ -259,6 +377,7 @@ async function retryImageAction(id) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(loginAction, "60b710bcae6bcb17ad9c2b62bd838f1d09ef6b4bc5", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(logoutAction, "009f44fc71f939d5b067a74bb74bd5adb4b8d60c5a", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(createProductAction, "40692563a8dc331f44013d53e6c439ccf3efb5f483", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(importProductsAction, "40777bc69ce3c2a0a1cfd8caa6eeb255c48ef31bd9", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updatePriceAction, "607b1e6d6c587e997c95a599d3325f8885a66fe4c5", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(toggleActiveAction, "600a1af5c8a11ff736ebb9a425f7da74c59201cd7e", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(deleteProductAction, "4064dd1abbb238a42185890e4d368c2730da238055", null);

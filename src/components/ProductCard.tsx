@@ -65,7 +65,7 @@ export function ProductCard({ product, index }: { product: PublicProduct; index:
       <div className="flex flex-1 flex-col gap-2.5 p-2.5 sm:gap-3 sm:p-4">
         <div>
           <h3 className="product-title line-clamp-2 min-h-10 text-xs font-black leading-snug sm:text-sm">
-            Pod descartable {product.brand} {product.model} {formatNumber(product.puffs)} puffs
+            {product.brand} {product.model} {formatNumber(product.puffs)} puffs
           </h3>
           {product.renderMode === "texture" ? (
             <p className="product-caption mt-1 text-[10px] font-bold uppercase text-neutral-500 sm:text-[11px]">* Imagen referencial</p>

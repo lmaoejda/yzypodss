@@ -877,6 +877,14 @@
     cursor: grab;
   }
 
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .resize-y {
+    resize: vertical;
+  }
+
   .scroll-mt-16 {
     scroll-margin-top: calc(var(--spacing) * 16);
   }
@@ -1392,6 +1400,10 @@
     font-family: var(--font-anton), Impact, "Arial Narrow Bold", sans-serif;
   }
 
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -1514,6 +1526,10 @@
     letter-spacing: var(--tracking-widest);
   }
 
+  .break-all {
+    word-break: break-all;
+  }
+
   .whitespace-nowrap {
     white-space: nowrap;
   }
@@ -1578,6 +1594,11 @@
 
   .shadow-\[4px_4px_0_\#111\] {
     --tw-shadow: 4px 4px 0 var(--tw-shadow-color, #111);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  .shadow-\[6px_6px_0_\#111\] {
+    --tw-shadow: 6px 6px 0 var(--tw-shadow-color, #111);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
 
@@ -1647,6 +1668,40 @@
     user-select: none;
   }
 
+  .file\:mr-3::file-selector-button {
+    margin-right: calc(var(--spacing) * 3);
+  }
+
+  .file\:border-0::file-selector-button {
+    border-style: var(--tw-border-style);
+    border-width: 0;
+  }
+
+  .file\:bg-black::file-selector-button {
+    background-color: var(--color-black);
+  }
+
+  .file\:px-3::file-selector-button {
+    padding-inline: calc(var(--spacing) * 3);
+  }
+
+  .file\:py-2::file-selector-button {
+    padding-block: calc(var(--spacing) * 2);
+  }
+
+  .file\:font-bold::file-selector-button {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .file\:text-white::file-selector-button {
+    color: var(--color-white);
+  }
+
+  .file\:uppercase::file-selector-button {
+    text-transform: uppercase;
+  }
+
   .focus-within\:border-red-600:focus-within {
     border-color: var(--color-red-600);
   }
@@ -1709,6 +1764,10 @@
 
   .active\:cursor-grabbing:active {
     cursor: grabbing;
+  }
+
+  .disabled\:cursor-not-allowed:disabled {
+    cursor: not-allowed;
   }
 
   .disabled\:opacity-30:disabled {

@@ -51,6 +51,21 @@ el seed corre una única vez: si borrás productos no vuelven a aparecer).
    (`DATABASE_URL`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTH_SECRET`, `SERPAPI_KEY`, `NEXT_PUBLIC_WHATSAPP_NUMBER`) → Deploy.
 6. Entrar a `/admin/login`, cargar productos y listo. Poné el link de la tienda en la bio de Instagram.
 
+## Importar muchos productos desde un TXT
+
+En `/admin`, el bloque **Importar varios productos** permite subir un archivo `.txt` o pegar su contenido. Cada producto
+va en una línea con cinco campos separados por `|`; los sabores se separan con coma:
+
+```text
+Marca | Modelo | Puffs | Precio ARS | Sabor 1, Sabor 2
+ELFBAR | BC 15K | 15000 | 16000 | Blue Razz, Watermelon
+VUSE | GO 20K | 20000 | 18000 | Strawberry Kiwi, Mango Ice
+```
+
+Se aceptan hasta 50 productos y líneas vacías o comentarios que empiezan con `#`. Antes de guardar se validan todas las
+líneas y se rechazan duplicados del archivo o del catálogo existente; si hay un error, no se importa ninguno. Los
+productos quedan publicados con su modelo 3D de color y se pueden buscar imágenes desde la tabla del admin.
+
 ## Automatización del admin (el vendedor completa 5 campos)
 
 Marca, Modelo, Puffs, Precio y Sabores (Enter agrega un chip). Al guardar, una Server Action corre el pipeline

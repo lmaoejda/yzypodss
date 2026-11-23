@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/auth";
 import { getAllProducts, getRecentLogs } from "@/lib/products";
 import { logoutAction } from "./actions";
 import { NewProductForm } from "./NewProductForm";
+import { BulkProductImport } from "./BulkProductImport";
 import { ProductsTable } from "./ProductsTable";
 import { LogsList } from "./LogsList";
 
@@ -43,6 +44,7 @@ export default async function AdminPage() {
       ) : null}
 
       <NewProductForm />
+      <BulkProductImport />
       <ProductsTable products={items} />
       <LogsList logs={logs} />
     </main>

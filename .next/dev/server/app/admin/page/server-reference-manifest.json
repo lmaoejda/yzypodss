@@ -30,6 +30,16 @@
       "exportedName": "createProductAction",
       "filename": "src/app/admin/actions.ts"
     },
+    "40777bc69ce3c2a0a1cfd8caa6eeb255c48ef31bd9": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "exportedName": "importProductsAction",
+      "filename": "src/app/admin/actions.ts"
+    },
     "4078a95100f9f021914f96340aa891c03e863756e3": {
       "workers": {
         "app/admin/page": {

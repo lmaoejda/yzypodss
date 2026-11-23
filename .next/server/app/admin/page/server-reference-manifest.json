@@ -30,6 +30,16 @@
       "exportedName": "deleteProductAction",
       "filename": "src/app/admin/actions.ts"
     },
+    "40a1321b9ea6f5c4b8a37ba06e77c3b096e600acb3": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": 72019,
+          "async": true
+        }
+      },
+      "exportedName": "importProductsAction",
+      "filename": "src/app/admin/actions.ts"
+    },
     "40e9739890ef7be7f488696d1446ba2ec4c2ca686d": {
       "workers": {
         "app/admin/page": {
